@@ -19,7 +19,7 @@ public:
         arr = arr_ptr;
         len = length;
         // 创建一个迭代器
-        ptr = new Iterators<T>(len);
+        ptr = new Iterators<T>(len,0);
         // 向迭代器缓存中拷贝数据
         memory_copy(arr);
     };
@@ -32,12 +32,12 @@ public:
 // 数据结构操作
 public:
     //首个元素的头迭代器
-    T* _begin(){
-        return  *(ptr->memory);
+    Iterators<T>* _begin(){
+        return  ptr->visit(0);
     };
     //最后一个节点的尾迭代器
-    T* _end(){
-        return *(ptr->memory+len);
+    Iterators<T>* _end(){
+        return  ptr->visit(len);
     };
     //向第一位插入元素
     int _shift(T element){

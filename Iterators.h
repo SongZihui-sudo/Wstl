@@ -8,19 +8,18 @@
 using namespace std;
 
 namespace Wstl{
-//内存结点
-tc
-struct memory_node{
-    T value;
-    int* start;//当前节点的地址
-    int length;//长度
-};
 //迭代器类
 tc
 class Iterators{
+    //内存结点
+struct memory_node{
+    Iterators *value;//当前节点的地址
+    int* start;
+};
 public:
     //构造函数
-    Iterators(int length){
+    Iterators(int length,int num){
+        index = num;
         real_size = length;
         memory_node<T> *node = new memory_node<T>;
         memory = (T*)malloc(default_size*sizeof(T));
@@ -39,6 +38,12 @@ public:
     int expand_memory(){
         return 0;
     };
+    // 内存访问函数
+    Iterators<T> visit(int index){
+        Iterators<T> *ret = new Iterators(real_size,index);
+        ret->memory = memory+index;
+        return  ret;
+    }
 public:
     //运算符重载+
     Iterators<T> operator+(const int add){
@@ -70,6 +75,8 @@ public:
 private:
     // 数据的实际大小
     int real_size = 0;
+    // 下表
+    int index = 0;
 };
 }
 
