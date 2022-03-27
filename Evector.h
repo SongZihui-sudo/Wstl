@@ -20,9 +20,9 @@ public:
     // 构造函数
     Evector(T *arr_ptr,int length){
         arr = arr_ptr;
-        len = length;
+        this->len = length;
         // 创建一个迭代器
-        ptr = new Iterators<T>(len,0);
+        this->ptr = new Iterators<T>(this->len,0);
         // 向迭代器缓存中拷贝数据
         memory_copy(arr);
         // 测试
@@ -31,93 +31,94 @@ public:
     // 析构函数
     ~Evector(){
         //释放迭代器
-        ptr->~Iterators();
+        this->ptr->~Iterators();
         arr = NULL;
     };
 // 数据结构操作
 public:
     //首个元素的头迭代器
     Iterators<T>* _begin(){
-        return  ptr->visit(0);
+        return  this->ptr->visit(0);
     };
     //最后一个节点的尾迭代器
     Iterators<T>* _end(){
-        return  ptr->visit(len);
+        return  this->ptr->visit(this->len);
     };
     //向第一位插入元素
     int _shift(T element){
-        if((sizeof(T)*(len+1))>ptr->len*sizeof (T)){
+        if((sizeof(T)*(this->len+1))>this->ptr->len*sizeof (T)){
             printf("Wstl ERROR:Out of memory.");
-            ptr->expand_memory();
+            this->ptr->expand_memory();
             _shift(element);
         }
         else{
-            for(int i = len;i > 0;i--){
+            for(int i = this->len+1;i > 0;i--){
                 if(i-1<0){
                     break;
                 }
-                *(ptr->memory+i) = *(ptr->memory+i-1);
+                *(this->ptr->memory+i) = *(this->ptr->memory+i-1);
             }
-            *(ptr->memory) = element;
+            *(this->ptr->memory) = element;
         }
-        len++;
-        ptr->length(len);
-        //debug_print(ptr->memory);
+        this->len++;
+        this->ptr->length(this->len);
+        //dp
+        //debug_print(this->ptr->memory);
     };
     //删除第一个元素
     int _pop(){
-        *(ptr->memory) = NULL;
+        *(this->ptr->memory) = NULL;
         //向前移动
-        for(int i = 1;i < len;i++){
-            if(i+1>len){
+        for(int i = 2;i < this->len;i++){
+            if(i+1>this->len){
                 break;
             }
-            *(ptr->memory+i-1) = *(ptr->memory+i);
+            *(this->ptr->memory+i-1) = *(this->ptr->memory+i);
         }
-        len--;
+        this->len--;
         //dp
         return 0;
     };
     //删除最后一个元素
     int _delete(){
-        *(ptr->memory+len-1) = NULL;
-        len--;
-        ptr->length(len);
+        *(this->ptr->memory+this->len-1) = NULL;
+        this->len--;
         //dp
         return 0;
     };
     //从尾部添加一个元素
     int _push_back(T element){
-        if((sizeof(T)*(len+1))>ptr->len*sizeof (T)){
+        if((sizeof(T)*(this->len+1))>this->ptr->len*sizeof (T)){
             printf("Wstl ERROR:Out of memory.");
-            ptr->expand_memory();
+            this->ptr->expand_memory();
             _push_back(element);
         }
         else{
-            *(ptr->memory+len) = element;
+            *(this->ptr->memory+this->len) = element;
         }
-        len++;
-        ptr->length(len);
-        //debug_print(ptr->memory);
+        this->len++;
+        this->ptr->length(this->len);
+        //debug_print(this->ptr->memory);
+        //dp
         return 0;
     };
     //向指定位置后插入元素
     int _replace(int num,int element){
-        if((sizeof(T)*(len+1))>ptr->len*sizeof (T)){
+        if((sizeof(T)*(this->len+1))>this->ptr->len*sizeof (T)){
             printf("Wstl ERROR:Out of memory.");
-            ptr->expand_memory();
+            this->ptr->expand_memory();
             _replace(num,element);
         }
         else{
             T *address = _find(num);
             if(address!=NULL){
-                len++;
-                int index =len - (address-ptr->memory)/(sizeof (T));
-                for(int i = len; i > index;i++){
+                this->len++;
+                int index =this->len - (address-this->ptr->memory)/(sizeof (T));
+                for(int i = this->len; i > index;i++){
                     if(i-1<0){
                         break;
                     }
-                    *(ptr->memory+i) = *(ptr->memory+i-1);
+                    *(this->ptr->memory+i) = *(this->ptr->memory+i-1);
                 }
                 *(address) = element;
             }
@@ -131,47 +132,51 @@ public:
     };
     //查找
     T* _find(T element){
-        for(int i = 0;i < len;i++){
-            for(int j= len;j > 0;j--){
-                if(*(ptr->memory+i)==element){
-                    return ptr->memory+i;
+        for(int i = 0;i < this->len;i++){
+            for(int j= this->len;j > 0;j--){
+                if(*(this->ptr->memory+i)==element){
+                    return this->ptr->memory+i;
                 }
-                else if(*(ptr->memory+j)==element){
-                    return  ptr->memory+j;
+                else if(*(this->ptr->memory+j)==element){
+                    return  this->ptr->memory+j;
                 }
             }
         }
         return NULL;
     };
+    //长度
+    int length(){
+        return this->len-1;
+    }
 //内存操作
 public:
     //内存拷贝
     int memory_copy(T *src){
-        if(len==0){
+        if(this->len==0){
             //长度为零，直接退出
             printf("Wstl Error:Length can not be 0.");
             return -1;
         }
-        else if (len>ptr->length()) {
+        else if (this->len>this->ptr->length()) {
             //拓展内存之后递归
-            ptr->expand_memory();
+            this->ptr->expand_memory();
             memory_copy(src);
         }
         else{
             //防止内存重叠
-            if((src)<(ptr->memory)||(src)>(ptr->memory)){
-                for(int i = 0;i < len;i++){
-                    *(ptr->memory+i) = *(src+i);
+            if((src)<(this->ptr->memory)||(src)>(this->ptr->memory)){
+                for(int i = 0;i < this->len;i++){
+                    *(this->ptr->memory+i) = *(src+i);
                 }
             }
             //内存冲突
             else{
-                for(int i = len;i>0;i--){
-                    *(ptr->memory+i) = *(src+i);
+                for(int i = this->len;i>0;i--){
+                    *(this->ptr->memory+i) = *(src+i);
                 }
             }
         };
-        //debug_print(ptr->memory);
+        //debug_print(this->ptr->memory);
         return 0;
     }
 private:
@@ -181,13 +186,13 @@ private:
 private:
     //debugger 输出 内容
     int debug_print(T *beg){
-        for(int i = 0;i < len;i++){
+        for(int i = 0;i < this->len;i++){
             cout<<"data:"<<*(beg+i)<<endl;
         }
         return 0;
     };
     int debug_print_address(T *beg){
-        for(int i = 0;i < len;i++){
+        for(int i = 0;i < this->len;i++){
             cout<<"data:"<<beg+i<<endl;
         }
         return 0;

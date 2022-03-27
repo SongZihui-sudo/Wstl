@@ -92,12 +92,14 @@ public:
     }
 public:
     //运算符重载+
+    //Bug 存在一些问题，编译时并不会调用这些函数
     Iterators<T>* operator+(const int &add){
         Iterators<T>* ret = new Iterators(memory,link_list,real_size,index);
         ret->memory = memory+add;
         return  ret;
     };
     //运算符重载-
+    //Bug 存在一些问题，编译时并不会调用这些函数
     Iterators<T>* operator-(const int &sub){
         Iterators<T>* ret = new Iterators(memory,link_list,real_size,index);
         ret->memory = memory-sub;

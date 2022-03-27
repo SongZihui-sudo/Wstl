@@ -10,7 +10,7 @@
 #define default_size 100
 #define tc template<class T>
 #define tt template<typename U>
-#define dp debug_print(ptr->memory);
-#define dpa debug_print_address(ptr->memory);
+#define dp debug_print(this->ptr->memory);
+#define dpa debug_print_address(this->ptr->memory);
 
 #endif // MACRO_H
