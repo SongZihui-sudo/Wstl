@@ -15,11 +15,9 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    Command_line.cpp \
     Test.cpp
 
 HEADERS += \ Evector.h \
-    Command_line.h \
     Evector.h \
     Iterators.h \
     define.h

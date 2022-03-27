@@ -1,7 +1,10 @@
+/*
+*   author：Wildpointer
+*   date： 20022-3-27
+*   about： 关于Evector类的实现
+*/
 #ifndef EVECTOR_H
 #define EVECTOR_H
-#include <iostream>
-
 #include "Iterators.h"
 
 using namespace std;
@@ -22,6 +25,8 @@ public:
         ptr = new Iterators<T>(len,0);
         // 向迭代器缓存中拷贝数据
         memory_copy(arr);
+        // 测试
+        dpa
     };
     // 析构函数
     ~Evector(){
@@ -153,7 +158,6 @@ public:
             memory_copy(src);
         }
         else{
-            int l = len;
             //防止内存重叠
             if((src)<(ptr->memory)||(src)>(ptr->memory)){
                 for(int i = 0;i < len;i++){
@@ -175,12 +179,19 @@ private:
     //创建一个迭代器
     Iterators<T> *ptr;
 private:
-    //debugger 输出
+    //debugger 输出 内容
     int debug_print(T *beg){
         for(int i = 0;i < len;i++){
             cout<<"data:"<<*(beg+i)<<endl;
         }
+        return 0;
     };
+    int debug_print_address(T *beg){
+        for(int i = 0;i < len;i++){
+            cout<<"data:"<<beg+i<<endl;
+        }
+        return 0;
+    }
 };
 }
 #endif // EVECTOR_H
