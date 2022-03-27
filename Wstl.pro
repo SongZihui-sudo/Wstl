@@ -25,8 +25,10 @@ HEADERS += \ Evector.h \
 
 TRANSLATIONS += \
     Evector_zh_CN.ts \
-    README.txt
+    README.txt \
+    doc/Evector.txt \
 # Default rules for deployment.
+TARGET = Wstl
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target

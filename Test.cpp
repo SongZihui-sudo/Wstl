@@ -40,6 +40,7 @@ int main(int argc, char *argv[]){
     }
     ev.~Evector();
     // 测试Estring
+    printf("Estring Test:\n");
     system("pause");
     return 0;
 }
