@@ -7,7 +7,6 @@
 #define EVECTOR_H
 #include "Iterators.h"
 
-using namespace std;
 // Wstl命名空间
 namespace Wstl{
 // Evector
@@ -37,11 +36,11 @@ public:
 // 数据结构操作
 public:
     //首个元素的头迭代器
-    Iterators<T>* _begin(){
+    Iterators<T> _begin(){
         return  this->ptr->visit(0);
     };
     //最后一个节点的尾迭代器
-    Iterators<T>* _end(){
+    Iterators<T> _end(){
         return  this->ptr->visit(this->len);
     };
     //向第一位插入元素

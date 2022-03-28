@@ -3,8 +3,8 @@
 *   date: 2022-3-27
 *   about:关于Evector类成员函数的测试
 */
-#include "Evector.h"
 #include "Estring.h"
+#include "Evector.h"
 
 using namespace std;
 using namespace Wstl;
@@ -21,26 +21,30 @@ int main(int argc, char *argv[]){
     ev._push_back(9);
     ev._pop();
     auto beg = ev._begin();
-    cout<<"begin:"<<*(beg->memory)<<endl;
+    cout<<"begin:"<<*(beg.memory)<<endl;
     ev._delete();
     ev._replace(3,10);
     cout<<"Find:in address:"<<(ev._find(9))<<endl;
-    cout<<"end:"<<*(ev._end()->memory)<<endl;
-    auto iter = ev._begin()->operator+(1);
-    cout<<"begin:"<<(iter->memory)<<endl;
-    auto iter2 = ev._begin()+1;
-    cout<<"begin:"<<(iter2->memory)<<endl;
+    cout<<"end:"<<*(ev._end().memory)<<endl;
+    auto iter = ev._begin();
+    cout<<"begin:"<<(iter.memory)<<endl;
+    iter = iter+1;
+    cout<<"begin:"<<(iter.memory)<<endl;
     auto begin = ev._begin();
+    auto end = ev._end();
     int i = 0;
     cout<<"length:"<<ev.length()<<endl;
-    while (i<ev.length()) {
-        begin = begin->operator+(1);
-        cout<<"traverse test:"<<*(begin->memory)<<endl;
+    while (begin!=end){
+        begin = begin+1;
+        cout<<"begin traverse test:"<<*(begin.memory)<<endl;
         i++;
     }
     ev.~Evector();
     // 测试Estring
     printf("Estring Test:\n");
+    Estring es;
+    es = "Hello World";
+    cout<<"es:"<<es<<endl;
     system("pause");
     return 0;
 }

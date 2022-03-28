@@ -27,30 +27,30 @@ struct memory_node{
 public:
     //构造函数
     Iterators(int length,int num){
-        link_list = new memory_node;
-        link_list->next = NULL;
-        index = num;
-        real_size = length;
+        this->link_list = new memory_node;
+        this->link_list->next = NULL;
+        this->index = num;
+        this->real_size = length;
         memory_node *node = new memory_node;
-        memory = (T*)malloc(default_size*sizeof(T));
-        if(!memory){
+        this->memory = (T*)malloc(default_size*sizeof(T));
+        if(!this->memory){
             printf("Wstl Error:Memory allocation failed.");
         }
-        link_list->value = memory;
+        this->link_list->value = this->memory;
     };
     // 重载构造函数
     Iterators(T* pre,memory_node* link,int length,int num){
-        index = num;
-        real_size = length;
-        link_list = link;
-        memory = pre;
+        this->index = num;
+        this->real_size = length;
+        this->link_list = link;
+        this->memory = pre;
     }
     //析构函数
     ~Iterators(){
         //释放内存空间
-        memory = NULL;
-        free(link_list);
-        free(memory);
+        this->memory = NULL;
+        free(this->link_list);
+        free(this->memory);
     };
 public:
     //内存不足时，拓展内存空间
@@ -60,7 +60,7 @@ public:
         if(!new_memory){
             printf("Wstl Error:Memory allocation failed.");
         }
-        memory_node *link = link_list;
+        memory_node *link = this->link_list;
         //找到最后一个节点
         while(link){
             link = link->next;
@@ -71,39 +71,55 @@ public:
         return 0;
     };
     // 内存访问函数
-    Iterators<T>* visit(int index){
-        Iterators<T> *ret = new Iterators(memory,link_list,real_size,index);
+    Iterators<T> visit(int ind){
+        Iterators<T> ret(this->memory,this->link_list,this->real_size,this->index);
         // 超出当前内存块大小
-        if(index>len){
-            int num = index/len;
-            memory_node *link = link_list;
+        if(ind>this->len){
+            int num = ind/this->len;
+            memory_node *link = this->link_list;
             while(num){
                 link = link->next;
                 num--;
             }
-            ret->memory = link->value+index;
+            ret.memory = link->value+ind;
             free(link);
         }
         // 在当前内存块中
         else{
-            ret->memory = memory+index;
+            ret.memory = this->memory+ind;
         }
         return  ret;
     }
 public:
     //运算符重载+
-    //Bug 存在一些问题，编译时并不会调用这些函数
-    Iterators<T>* operator+(const int &add){
-        Iterators<T>* ret = new Iterators(memory,link_list,real_size,index);
-        ret->memory = memory+add;
+    Iterators<T> operator+(int add){
+        Iterators<T> ret(this->memory,this->link_list,this->real_size,this->index);
+        ret.memory = this->memory+add;
         return  ret;
     };
     //运算符重载-
-    //Bug 存在一些问题，编译时并不会调用这些函数
-    Iterators<T>* operator-(const int &sub){
-        Iterators<T>* ret = new Iterators(memory,link_list,real_size,index);
-        ret->memory = memory-sub;
+    Iterators<T> operator-(int sub){
+        Iterators<T> ret(this->memory,this->link_list,this->real_size,this->index);
+        ret.memory = this->memory-sub;
         return ret;
+    }
+    //运算符重载!=
+    bool operator!=(Iterators<T> unequal){
+        if(this->memory!=unequal.memory){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+    //运算符重载==
+    bool operator==(Iterators<T> equal){
+        if(this->memory==equal.memory){
+            return true;
+        }
+        else{
+            return false;
+        }
     }
     //内存基址
     T *memory;
@@ -112,16 +128,16 @@ public:
     int len = default_size;
     // 长度
     int length(int l){
-        return real_size = l;
+        return this->real_size = l;
     }
     // 重载返回长度
     int length(){
-        return real_size;
+        return this->real_size;
     }
     // 调试输出全部的表
     int debug_print(){
-        for(int i = 0;i < real_size;i++){
-            cout<<*(memory+i)<<endl;
+        for(int i = 0;i < this->real_size;i++){
+            cout<<*(this->memory+i)<<endl;
         }
     };
 private:
