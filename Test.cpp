@@ -9,7 +9,17 @@
 using namespace std;
 using namespace Wstl;
 
+int Evector_test();
+int Estring_test();
+// main函数
 int main(int argc, char *argv[]){
+    Evector_test();
+    Estring_test();
+    system("pause");
+    return 0;
+}
+// 测试Evector
+int Evector_test(){
     printf("Evector Test\n");
     // 初始化数组
     int arr[5] = {12,1,2,3,4};//11034
@@ -40,11 +50,25 @@ int main(int argc, char *argv[]){
         i++;
     }
     ev.~Evector();
+    return 0;
+}
+// 测试Estring
+int Estring_test(){
     // 测试Estring
     printf("Estring Test:\n");
     Estring es;
     es = "Hello World";
     cout<<"es:"<<es<<endl;
-    system("pause");
-    return 0;
+    auto begin = es._begin();
+    auto end = es._end();
+    cout<<"begin:"<<*(begin.memory)<<endl;
+    cout<<"end:"<<*(end.memory)<<endl;
+    cout<<"length:"<<es.length()<<endl;
+    es._shift('a');
+    es._push_back('W');
+    cout<<"length:"<<es.length()<<endl;
+    es._pop();
+    es._delete();
+    cout<<"length:"<<es.length()<<endl;
+    return  0;
 }

@@ -8,77 +8,71 @@
 
 #include "Iterators.h"
 #include <string.h>
+#include "Evector.h"
 
 namespace   Wstl{
 
 class   Estring{
 private:
-    Iterators<char>* ptr;
+    Evector<char>* ptr;
     int len = 0;
     char* str_ptr;
 public:
-//构造函数
+    //构造函数
     Estring(){
-        // 创建一个迭代器ptr
-        ptr = new Iterators<char>(this->len,0);
-        // 拷贝进迭代器缓存
-        memory_copy(str_ptr);
-        this->len = strlen(str_ptr);
+        // 通过指针继承Evector类
+        this->ptr = new Evector<char>();
     };
     //析构函数
     ~Estring(){
-        free(ptr);
+        free(this->ptr);
     };
 public:
     // 类内函数
     int length(){
-        return this->len;
+        return this->ptr->length();
     };
     // 返回第一个元素的迭代器
     Iterators<char> _begin(){
-        return ptr->visit(0);
+        return this->ptr->_begin();
     };
     // 返回最后一个节点的迭代器
     Iterators<char> _end(){
-        return ptr->visit(this->len);
+        return this->ptr->_end();
     };
+    // 直接继承Evector的成员函数
+    int _shift(char element){
+        return this->ptr->_shift(element);
+    }
+    int _pop(){
+        return this->ptr->_pop();
+    }
+    int _push_back(char elelment){
+        return this->ptr->_push_back(elelment);
+    }
+    int _delete(){
+        return this->ptr->_delete();
+    }
+    int _replice(int index,char element){
+        return this->ptr->_replace(index,element);
+    }
+    char _find(char element){
+        return this->_find(element);
+    }
     // 运算符重载 =
     char* operator=(const char* str){
-        return  this->str_ptr = const_cast<char *>(str);
+        this->str_ptr = const_cast<char *>(str);
+        this->ptr->len = strlen(str_ptr);
+        this->ptr->public_ptr->length(ptr->len);
+        // 拷贝进迭代器内存
+        this->ptr->memory_copy(str_ptr);
+        return  str_ptr;
     };
     // 运算符重载 <<
     friend ostream & operator<<(ostream &out, Estring &str){
         out<<str.str_ptr;
         return out;
     };
-    //内存拷贝
-    int memory_copy(char *src){
-        if(this->len==0){
-            //长度为零，直接退出
-            return -1;
-        }
-        else if (this->len>this->ptr->length()) {
-            //拓展内存之后递归
-            this->ptr->expand_memory();
-            memory_copy(src);
-        }
-        else{
-            //防止内存重叠
-            if((src)<(this->ptr->memory)||(src)>(this->ptr->memory)){
-                for(int i = 0;i < this->len;i++){
-                    *(this->ptr->memory+i) = *(src+i);
-                }
-            }
-            //内存冲突
-            else{
-                for(int i = this->len;i>0;i--){
-                    *(this->ptr->memory+i) = *(src+i);
-                }
-            }
-        };
-        //debug_print(this->ptr->memory);
-        return 0;
-    }
 private:
     //debugger 输出 内容
     int debug_print(char *beg){

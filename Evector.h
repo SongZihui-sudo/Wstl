@@ -14,6 +14,7 @@ tc
 class Evector{
 public:
     int len;
+    Iterators<T>* public_ptr;
 // 类
 public:
     // 构造函数
@@ -25,8 +26,14 @@ public:
         // 向迭代器缓存中拷贝数据
         memory_copy(arr);
         // 测试
-        dpa
+        //dpa
     };
+    // Estring子类的构造函数
+    Evector(){
+        // 创建一个迭代器
+        this->ptr = new Iterators<T>(0,0);
+        this->public_ptr = this->ptr;
+    }
     // 析构函数
     ~Evector(){
         //释放迭代器
@@ -41,7 +48,7 @@ public:
     };
     //最后一个节点的尾迭代器
     Iterators<T> _end(){
-        return  this->ptr->visit(this->len);
+        return  this->ptr->visit(this->len-1);
     };
     //向第一位插入元素
     int _shift(T element){
