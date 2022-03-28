@@ -18,6 +18,7 @@ SOURCES += \
     Test.cpp
 
 HEADERS += \ Evector.h \
+    Estack.h \
     Estring.h \
     Evector.h \
     Iterators.h \

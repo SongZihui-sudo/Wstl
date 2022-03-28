@@ -102,7 +102,7 @@ public:
         Iterators<T> ret(this->memory,this->link_list,this->real_size,this->index);
         ret.memory = this->memory-sub;
         return ret;
-    }
+    };
     //运算符重载!=
     bool operator!=(Iterators<T> unequal){
         if(this->memory!=unequal.memory){
@@ -111,7 +111,7 @@ public:
         else{
             return false;
         }
-    }
+    };
     //运算符重载==
     bool operator==(Iterators<T> equal){
         if(this->memory==equal.memory){
@@ -120,9 +120,12 @@ public:
         else{
             return false;
         }
-    }
-    //内存基址
-    T *memory;
+    };
+    // 运算符重载<<
+    friend ostream & operator<<(ostream &out,Iterators<T> print){
+        out<<*(print.memory);
+        return out;
+    };
     // add数组的默认大小100*sizof(T)个字节
     // 内存大小
     int len = default_size;
@@ -139,7 +142,10 @@ public:
         for(int i = 0;i < this->real_size;i++){
             cout<<*(this->memory+i)<<endl;
         }
+        return 0;
     };
+    //内存基址
+    T *memory;
 private:
     // 数据的实际大小
     int real_size = 0;

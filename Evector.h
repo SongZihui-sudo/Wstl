@@ -48,7 +48,7 @@ public:
     };
     //最后一个节点的尾迭代器
     Iterators<T> _end(){
-        return  this->ptr->visit(this->len-1);
+        return  this->ptr->visit(this->len);
     };
     //向第一位插入元素
     int _shift(T element){
@@ -68,6 +68,7 @@ public:
         }
         this->len++;
         this->ptr->length(this->len);
+        return 0;
         //dp
         //debug_print(this->ptr->memory);
     };
@@ -152,7 +153,7 @@ public:
     };
     //长度
     int length(){
-        return this->len-1;
+        return this->len;
     }
 //内存操作
 public:

@@ -11,7 +11,7 @@
 #include "Evector.h"
 
 namespace   Wstl{
-
+// Estring类继承自Evector类
 class   Estring{
 private:
     Evector<char>* ptr;
@@ -69,8 +69,8 @@ public:
         return  str_ptr;
     };
     // 运算符重载 <<
-    friend ostream & operator<<(ostream &out, Estring &str){
-        out<<str.str_ptr;
+    friend ostream & operator<<(ostream &out,Estring &print){
+        out<<print.ptr->public_ptr->memory;
         return out;
     };
 private:
