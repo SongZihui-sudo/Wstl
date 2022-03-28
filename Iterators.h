@@ -7,8 +7,8 @@
 #define ITERATORS_H
 
 #include <iostream>
-#include <malloc.h>
 #include "define.h"
+#include <mutex>
 
 using namespace std;
 
@@ -31,7 +31,6 @@ public:
         this->link_list->next = NULL;
         this->index = num;
         this->real_size = length;
-        memory_node *node = new memory_node;
         this->memory = (T*)malloc(default_size*sizeof(T));
         if(!this->memory){
             printf("Wstl Error:Memory allocation failed.");
@@ -45,6 +44,18 @@ public:
         this->link_list = link;
         this->memory = pre;
     }
+    // 重载构造函数
+    Iterators(){
+        this->link_list = new memory_node;
+        this->index = 0;
+        this->link_list->next = NULL;
+        this->real_size = 0;
+        this->memory = (T*)malloc(default_size*sizeof(T));
+        if(!this->memory){
+            printf("Wstl Error:Memory allocation failed.");
+        }
+        this->link_list->value = this->memory;
+    }
     //析构函数
     ~Iterators(){
         //释放内存空间
@@ -52,44 +63,6 @@ public:
         free(this->link_list);
         free(this->memory);
     };
-public:
-    //内存不足时，拓展内存空间
-    int expand_memory(){
-        // 开辟新的内存块
-        T* new_memory = (T*)malloc(default_size*sizeof (T));
-        if(!new_memory){
-            printf("Wstl Error:Memory allocation failed.");
-        }
-        memory_node *link = this->link_list;
-        //找到最后一个节点
-        while(link){
-            link = link->next;
-        }
-        // 连接相邻的内存块
-        link->value = new_memory;
-        free(link);
-        return 0;
-    };
-    // 内存访问函数
-    Iterators<T> visit(int ind){
-        Iterators<T> ret(this->memory,this->link_list,this->real_size,this->index);
-        // 超出当前内存块大小
-        if(ind>this->len){
-            int num = ind/this->len;
-            memory_node *link = this->link_list;
-            while(num){
-                link = link->next;
-                num--;
-            }
-            ret.memory = link->value+ind;
-            free(link);
-        }
-        // 在当前内存块中
-        else{
-            ret.memory = this->memory+ind;
-        }
-        return  ret;
-    }
 public:
     //运算符重载+
     Iterators<T> operator+(int add){
@@ -144,8 +117,46 @@ public:
         }
         return 0;
     };
+public:
     //内存基址
     T *memory;
+    // 内存访问函数
+    Iterators<T> visit(int ind){
+        Iterators<T> ret(this->memory,this->link_list,this->real_size,this->index);
+        // 超出当前内存块大小
+        if(ind>this->len){
+            int num = ind/this->len;
+            memory_node *link = this->link_list;
+            while(num){
+                link = link->next;
+                num--;
+            }
+            ret.memory = link->value+ind;
+            free(link);
+        }
+        // 在当前内存块中
+        else{
+            ret.memory = this->memory+ind;
+        }
+        return  ret;
+    }
+    //内存不足时，拓展内存空间
+    int expand_memory(){
+        // 开辟新的内存块
+        T* new_memory = (T*)malloc(default_size*sizeof (T));
+        if(!new_memory){
+            printf("Wstl Error:Memory allocation failed.");
+        }
+        memory_node *link = this->link_list;
+        //找到最后一个节点
+        while(link){
+            link = link->next;
+        }
+        // 连接相邻的内存块
+        link->value = new_memory;
+        free(link);
+        return 0;
+    };
 private:
     // 数据的实际大小
     int real_size = 0;

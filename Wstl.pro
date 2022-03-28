@@ -18,10 +18,12 @@ SOURCES += \
     Test.cpp
 
 HEADERS += \ Evector.h \
+    Elist.h \
     Estack.h \
     Estring.h \
     Evector.h \
     Iterators.h \
+    allocator.h \
     define.h
 
 TRANSLATIONS += \

@@ -1,22 +1,28 @@
 /*
 *   author: Wildpointer
 *   date: 2022-3-27
-*   about:关于Evector类成员函数的测试
+*   about:关于Wstl的测试
 */
 #include "Estring.h"
 #include "Evector.h"
 #include "Estack.h"
+#include "Elist.h"
 
 using namespace std;
 using namespace Wstl;
 
 int Evector_test();
 int Estring_test();
+int Estack_test();
+int Elist_test();
+
 // main函数
 int main(int argc, char *argv[]){
     cout<<"Wstl Test"<<endl;
     Evector_test();
     Estring_test();
+    Estack_test();
+    Elist_test();
     system("pause");
     return 0;
 }
@@ -75,4 +81,23 @@ int Estring_test(){
         cout<<"begin traverse test:"<<begin<<endl;
     }
     return  0;
+}
+// 测试Estack
+int Estack_test(){
+    printf("Estack Test:\n");
+    int arr[5] = {1,2,3,4,5};
+    Estack<int> ek(arr,sizeof (arr)/sizeof (int));
+    cout<<"length:"<<ek.length()<<endl;
+    ek._push(10);
+    cout<<"top:"<<ek._top()<<endl;
+    ek._pop();
+    cout<<"top:"<<ek._top()<<endl;
+    cout<<"end:"<<ek._end()<<endl;
+    return 0;
+}
+// 测试Elist
+int Elist_test(){
+    printf("Elist Test:\n");
+    Elist<int> el;
+    return 0;
 }

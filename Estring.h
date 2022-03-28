@@ -6,7 +6,6 @@
 #ifndef ESTRING_H
 #define ESTRING_H
 
-#include "Iterators.h"
 #include <string.h>
 #include "Evector.h"
 
