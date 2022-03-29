@@ -40,6 +40,27 @@ public:
         }
 
     }
+    // 内存分配重载
+    // 新建内存空间
+    T* _new(int size){
+        this->beused+=size;
+        T* new_ptr;
+        if(this->beused>default_size){
+            this->expand_memory();
+            int index = size/(default_size);
+            auto link = this->link_list;
+            while (index) {
+                link = link->next;
+                index--;
+            }
+            new_ptr = this->link->value+(new_ptr-this->memory+default_size);
+            return new_ptr;
+        }
+        else{
+            new_ptr = this->memory+this->beused;
+            return new_ptr;
+        }
+    }
     // 内存是否被占用
     bool isused(int index){
         if(*(this->memory+index)==NULL){

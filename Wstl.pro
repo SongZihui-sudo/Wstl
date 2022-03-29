@@ -24,7 +24,8 @@ HEADERS += \ Evector.h \
     Evector.h \
     Iterators.h \
     allocator.h \
-    define.h
+    define.h \
+    piece_table.h
 
 TRANSLATIONS += \
     Evector_zh_CN.ts \

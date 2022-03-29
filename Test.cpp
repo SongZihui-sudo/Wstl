@@ -1,12 +1,13 @@
-/*
-*   author: Wildpointer
-*   date: 2022-3-27
-*   about:关于Wstl的测试
-*/
+//
+//  author: Wildpointer
+//  date: 2022-3-27
+//  about:关于Wstl的测试
+//
 #include "Estring.h"
 #include "Evector.h"
 #include "Estack.h"
 #include "Elist.h"
+#include "piece_table.h"
 
 using namespace std;
 using namespace Wstl;
@@ -15,6 +16,7 @@ int Evector_test();
 int Estring_test();
 int Estack_test();
 int Elist_test();
+int piece_table_test();
 
 // main函数
 int main(int argc, char *argv[]){
@@ -23,6 +25,7 @@ int main(int argc, char *argv[]){
     Estring_test();
     Estack_test();
     Elist_test();
+    piece_table_test();
     system("pause");
     return 0;
 }
@@ -113,5 +116,17 @@ int Elist_test(){
     auto end2 = el._end();
     cout<<"begin:"<<begin2<<endl;
     cout<<"end:"<<end2<<endl;
+    return 0;
+}
+// 测试piece_table
+int piece_table_test(){
+    printf("Piece table Test:");
+    piece_table<char> p;
+    p._push_back('a');
+    p._push_back('b');
+    p._insert(1,'d');
+    auto begin = p._begin();
+    auto end = p._end();
+    cout<<"length:"<<p.length()<<endl;
     return 0;
 }

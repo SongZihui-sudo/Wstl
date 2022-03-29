@@ -1,16 +1,16 @@
 #ifndef ELIST_H
 #define ELIST_H
 
-#include  "allocator.h"
+#include  "Iterators.h"
 
 namespace Wstl{
 
 tc
 struct list_node{
-    list_node<T> *next;
+    T *next;
     T value;
     // 运算符重载<<
-    friend ostream & operator<<(ostream &out,list_node<T> *print){
+    friend ostream & operator<<(ostream &out,T *print){
         out<<print->value;
         return out;
     };
@@ -22,7 +22,6 @@ class Elist{
 public:
     // 构造函数
     Elist(){
-        ptr =new allocators<T>();
         // 新建一个节点
         this->head = new list_node<T>;
         this->head->value = 0;
@@ -30,7 +29,7 @@ public:
     };
     // 析构函数
     ~Elist(){
-        free(ptr);
+        free(head);
     }
 public:
     //相关成员函数
@@ -41,6 +40,13 @@ public:
         node->next = NULL;
         list_node<T>* end =  this->_end();
         end->next = node;
+        this->len++;
+        return 0;
+    }
+    // 重载_push_back
+    int _push_back(T* element){
+        T* end =  this->_end();
+        end->next = element;
         this->len++;
         return 0;
     }
@@ -104,20 +110,20 @@ public:
             head_ptr = head_ptr->next;
         }
     }
+    // 第一个节点
+    T* _begin(){
+        T *begin = this->head->next;
+        return  begin;
+    }
     // 最后一个节点
-    list_node<T>* _end(){
-        list_node<T> *end = this->head;
+    T* _end(){
+        T *end = this->head;
         int i = this->len;
         while (i) {
             end = end->next;
             i--;
         }
         return end;
-    }
-    // 第一个节点
-    list_node<T>* _begin(){
-        list_node<T> *begin = this->head->next;
-        return  begin;
     }
     // 长度
     int length(){
@@ -130,7 +136,6 @@ public:
     }
 private:
     int len = 0;
-    allocators<T>* ptr;
     list_node<T> *head;
 };
 }
