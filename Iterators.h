@@ -18,12 +18,13 @@ namespace Wstl{
 tc
 class Iterators{
 
-private:
+public:
 //内存结点
 struct memory_node{
     T* value; //当前内存块的地址
     memory_node* next; //相邻内存块的地址
 };
+
 public:
     //构造函数
     Iterators(int length,int num){
@@ -157,13 +158,13 @@ public:
         free(link);
         return 0;
     };
+    // 内存块表
+    memory_node* link_list;
 private:
     // 数据的实际大小
     int real_size = 0;
     // 下表
     int index = 0;
-    // 内存块表
-    memory_node* link_list;
 };
 }
 

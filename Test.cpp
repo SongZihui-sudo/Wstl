@@ -99,5 +99,19 @@ int Estack_test(){
 int Elist_test(){
     printf("Elist Test:\n");
     Elist<int> el;
+    el.shift(99);
+    auto begin = el._begin();
+    cout<<"begin:"<<begin<<endl;
+    el._push_back(9);
+    auto end = el._end();
+    cout<<"end:"<<end<<endl;
+    el._insert(1,10);
+    cout<<"length:"<<el.length()<<endl;
+    el._pop_back();
+    el.unshift();
+    auto begin2 = el._begin();
+    auto end2 = el._end();
+    cout<<"begin:"<<begin2<<endl;
+    cout<<"end:"<<end2<<endl;
     return 0;
 }
